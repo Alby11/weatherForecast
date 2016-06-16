@@ -1,18 +1,5 @@
-(function () {
-
-    getTheWeather();
-
-    $("body").css("transition", "background-color 1s ease");
-    alert(document.getElementsByTagName());
-
-    $("body").css("background-color", "#000");
-
-}());
-
 function displayWeatherData(weatherReq) {
     let respXML = weatherReq.responseXML;
-    console.log(respXML);
-
     let city = respXML.getElementsByTagName("city")[0].attributes["name"].textContent
         , country = respXML.getElementsByTagName("country")[0].textContent
         , weatherDesc = respXML.getElementsByTagName("weather")[0].attributes["value"].nodeValue
@@ -24,8 +11,10 @@ function displayWeatherData(weatherReq) {
         , temperatureValueF = Math.floor(temperatureValue * (9 / 5) + 32)
         , temperatureMinF = Math.floor(temperatureMin * (9 / 5) + 32)
         , temperatureMaxF = Math.floor(temperatureMax * (9 / 5) + 32)
-        , temperatureContentC = "Temp: " + temperatureValue + " (Min: " + temperatureMin + " Max: " + temperatureMax + ")" + " °C" + "  " + '<button type="button" class="btn btn-success" id="toFahrenheit">To °F</button>'
-        , temperatureContentF = "Temp: " + temperatureValueF + " (Min: " + temperatureMinF + " Max: " + temperatureMaxF + ")" + " °F" + "  " + '<button type="button" class="btn btn-success" id="toCelsius">To °C</button>'
+        , buttonIdCelsius = 'toCelsius'
+        , buttonIdFahrenheit = 'toFahrenheit'
+        , temperatureContentC = `Temp: ${temperatureValue} (Min; ${temperatureMin} Max: ${temperatureMax}) °C <button type="button" class="btn btn-success" id="${buttonIdFahrenheit}">To °F</button>`
+        , temperatureContentF = `Temp: ${temperatureValueF} (Min; ${temperatureMinF} Max: ${temperatureMaxF}) °C <button type="button" class="btn btn-success" id="${buttonIdCelsius}">To °C</button>`
         , humidityValue = respXML.getElementsByTagName("humidity")[0].attributes["value"].nodeValue
         , humidityUnit = respXML.getElementsByTagName("humidity")[0].attributes["unit"].nodeValue
         , windValue = respXML.getElementsByTagName("speed")[0].attributes["value"].nodeValue
@@ -34,129 +23,152 @@ function displayWeatherData(weatherReq) {
         , pressureValue = respXML.getElementsByTagName("pressure")[0].attributes["value"].nodeValue
         , pressureUnit = respXML.getElementsByTagName("pressure")[0].attributes["unit"].nodeValue
         , backgroundId = [201, 401, 501, 601, 701, 801]
-        , backgroundIcon = ['thunderstorm'
-      , 'sprinkle'
-      , 'rain'
-      , 'snow'
-      , 'fog'
-      , 'day-sunny'
-      , 'cloudy'
-    , ]
+        , backgroundIcon = [
+            'thunderstorm'
+            , 'sprinkle'
+            , 'rain'
+            , 'snow'
+            , 'fog'
+            , 'day-sunny'
+            , 'cloudy'
+            , ]
+//        , backgroundImg = [
+//            'https://tylermoeller.github.io/local-weather-app/assets/img/thunderstorm.jpg'
+//            , 'https://tylermoeller.github.io/local-weather-app/assets/img/sprinkle.jpg'
+//            , 'https://tylermoeller.github.io/local-weather-app/assets/img/rain.jpg'
+//            , 'https://tylermoeller.github.io/local-weather-app/assets/img/snow.jpg'
+//            , 'https://tylermoeller.github.io/local-weather-app/assets/img/fog.jpg'
+//            , 'https://tylermoeller.github.io/local-weather-app/assets/img/clear.jpg'
+//            , 'https://tylermoeller.github.io/local-weather-app/assets/img/cloudy.jpg'
+//            , ]
         , backgroundImg = [
-      'http://tylermoeller.github.io/local-weather-app/assets/img/thunderstorm.jpg'
-      , 'https://tylermoeller.github.io/local-weather-app/assets/img/sprinkle.jpg'
-      , 'https://tylermoeller.github.io/local-weather-app/assets/img/rain.jpg'
-      , 'https://tylermoeller.github.io/local-weather-app/assets/img/snow.jpg'
-      , 'https://tylermoeller.github.io/local-weather-app/assets/img/fog.jpg'
-      , 'https://tylermoeller.github.io/local-weather-app/assets/img/clear.jpg'
-      , 'https://tylermoeller.github.io/local-weather-app/assets/img/cloudy.jpg'
-    , ]
+            'img/thunderstorm.jpg'
+            , 'img/sprinkle.jpg'
+            , 'img/rain.jpg'
+            , 'img/snow.jpg'
+            , 'img/fog.jpg'
+            , 'img/clear.jpg'
+            , 'img/cloudy.jpg'
+            , ]
         , iconClass
         , bgIndex;
-
-    $("#theTitle").html("Free C<i class='wi wi-day-sunny'></i>de Camp");
-    $("#theSubtitle").html("Weather App");
-    var mql = window.matchMedia("screen and (max-width: 410px)");
-    if (mql.matches) { // if media query matches
-        $("#theTitle").css({
-            "font-family": "Montserrat, Verdana"
-            , "font-size": "34px"
-        });
-
-        $("#theSubtitle").css({
-            "font-family": "Quattrocento, Verdana"
-            , "font-size": "26px"
-        });
-    } else {
-        // do something else
-        $("#theTitle").css({
-            "font-family": "Montserrat, Verdana"
-            , "font-size": "84px"
-        });
-        $("#theSubtitle").css({
-            "font-family": "Quattrocento, Verdana"
-            , "font-size": "58px"
-        });
-    }
-
-    $("#city").append(city + " - " + country);
-    $("#weather").append(weatherDesc);
-
-    $("#temp").append(temperatureContentC);
-
+    
+    
+//    var mql = window.matchMedia("screen and (max-width: 410px)");
+//    if (mql.matches) { // if media query matches
+//        $("#theTitle").css({
+//            "font-family": "Montserrat, Verdana"
+//            , "font-size": "34px"
+//        });
+//
+//        $("#theSubtitle").css({
+//            "font-family": "Quattrocento, Verdana"
+//            , "font-size": "26px"
+//        });
+//    } else {
+//        // do something else
+//        $("#theTitle").css({
+//            "font-family": "Montserrat, Verdana"
+//            , "font-size": "84px"
+//        });
+//        $("#theSubtitle").css({
+//            "font-family": "Quattrocento, Verdana"
+//            , "font-size": "58px"
+//        });
+//    }
+    
+    document.getElementById('theTitle').innerHTML = "Free C<i class='wi wi-day-sunny'></i>de Camp";
+    document.getElementById('theSubtitle').innerHTML = "Weather App";
+    document.getElementById('city').innerHTML = `${city} - ${country}`;
+    document.getElementById('weather').innerHTML = weatherDesc;
+    document.getElementById('temp').innerHTML = temperatureContentC;
     backgroundId.push(weatherValue);
     bgIndex = backgroundId.sort().indexOf(weatherValue);
-    $('body').css({
-        'background-image': 'url(' + backgroundImg[bgIndex] + ')'
-        , 'background-repeat': 'no-repeat'
-        , 'background-attachment': 'fixed'
-        , 'background-position': 'center'
-    });
+//    document.body.style.backgroundImage = `url(${backgroundImg[bgIndex]})`;
+    document.body.style.backgroundImage = `url(${backgroundImg[bgIndex]})`;
+    document.body.style.backgroundRepeat = 'no-repeat';
+    document.body.style.backgroundAttachment = 'fixed';
+    document.body.style.backgroundPosition = 'center';
     iconClass = backgroundIcon[bgIndex];
-    $('#icon').html('<i class="wi wi-' + iconClass + '"></i><br>');
-
-    $("#humidity").append("Humidity: " + humidityValue + " " + humidityUnit);
-    $("#wind").append("Wind: " + windValue + " kn " + " - " + windDirection + " " + '<i class="wi wi-wind towards-' + windDegrees + '-deg"></i><br>');
-    $("#pressure").append("Pressure: " + pressureValue + " " + pressureUnit);
-
-    (function convert() {
-        $("#toFahrenheit").click(function () {
-            $("#temp").html(temperatureContentF);
-            $("#toCelsius").click(function () {
-                $("#temp").html(temperatureContentC);
-                convert();
-                return false;
-            });
-            return false;
-        });
-    }());
+    document.getElementById('icon').innerHTML = `<i class="wi wi-${iconClass}"></i><br>`;
+    document.getElementById('humidity').innerHTML = `Humidity: ${humidityValue} ${humidityUnit}`;
+    document.getElementById('wind').innerHTML = `Wind: ${windValue}  kn - ${windDirection} <i class="wi wi-wind towards-${windDegrees}-deg"></i><br>`;
+    document.getElementById('pressure').innerHTML = `Pressure: ${pressureValue} ${pressureUnit}`;
+    document.getElementById('temp').innerHTML = temperatureContentC;
+    
+    function addClickListener(elementId = buttonIdFahrenheit) {
+        document.getElementById(elementId).addEventListener('click', convertTemp);
+    };
+    addClickListener();
+    
+    function convertTemp(element) {
+        elementId = element.srcElement.id;
+        if (elementId === buttonIdFahrenheit) {
+            document.getElementById(elementId).removeEventListener('click', convertTemp);
+            document.getElementById('temp').innerHTML = temperatureContentF;
+            addClickListener(buttonIdCelsius);
+        } else if (elementId === buttonIdCelsius) {
+            document.getElementById(elementId).removeEventListener('click', convertTemp);
+            document.getElementById('temp').innerHTML = temperatureContentC;
+            addClickListener(buttonIdFahrenheit);
+        }
+    }
 
 }
-// Start of geolocation block
+    
+function getPosition() {
 
-function getTheWeather() {
-    if (navigator.geolocation) {
-        // timeout at 60000 milliseconds (60 seconds)
-        var options = {
+    return new Promise((resolve, reject) => {
+        
+        if (navigator.geolocation) { getGeolocation(); } else { fail('W3C Geolocation API is not available'); }
+        
+        function getGeolocation() {
+
+            let options = {
             timeout: 60000
             , enableHighAccuracy: true
             , maximumAge: 18000
-        };
-        navigator.geolocation.getCurrentPosition(callback, errorHandler, options);
+            };
+            
+            navigator.geolocation.getCurrentPosition(positionOk, fail, options);
+        }
 
-    } else {
-        alert('W3C Geolocation API is not available');
-    }
+        function fail(error) {
+            reject(error);
+        }
+
+        function positionOk(position) {
+
+            let crd = position.coords;
+            let lat = crd.latitude;
+            let lon = crd.longitude;
+            let location = `lat=${lat}&lon=${lon}`
+            let appId = "60d2f49e0004ccad2ad538f264be9564"
+            let request = `http://api.openweathermap.org/data/2.5/weather?&mode=xml&units=metric&${location}&APPID=${appId}`;
+            weatherReq = new XMLHttpRequest();
+            weatherReq.open("GET", request, false);
+            console.log(request);
+            weatherReq.send();
+            if (weatherReq.status === 200) {
+                resolve(weatherReq);
+            } else {
+                fail("Some error occurred during the HTTP request");
+
+            }
+            
+        }
+
+    });
+
 }
 
-function callback(position) {
+function main() {
 
-    var crd = position.coords;
-    var lat = crd.latitude;
-    var lon = crd.longitude;
-    var location = "lat=" + lat + "&" + "lon=" + lon;
-    var appId = "60d2f49e0004ccad2ad538f264be9564"
-    var request = "http://api.openweathermap.org/data/2.5/weather?&mode=xml&units=metric&" + location + "&APPID=" + appId;
-    weatherReq = new XMLHttpRequest();
-    weatherReq.open("GET", request, false);
-    console.log(request);
-    weatherReq.send();
-    if (weatherReq.status === 200) {
-        //$(document).ready(displayWeatherData(weatherReq));
-        displayWeatherData(weatherReq);
+    getPosition().then(weatherReq => { displayWeatherData(weatherReq) });
 
-    } else {
-        alert("Some error occurred during the request");
-
-    }
+//    document.body.style.transition = 'background-color 1s ease';
+//    document.body.style.backgroundColor = '#000';
+    
 }
 
-function errorHandler(err) {
-    if (err.code == 1) {
-        alert("Error: Access is denied!");
-    } else if (err.code == 2) {
-        alert("Error: Position is unavailable!");
-    }
-}
-
-// End of geolocation block
+document.addEventListener("DOMContentLoaded", main(), false);
