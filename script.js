@@ -1,6 +1,6 @@
 function displayWeatherData(weatherReq) {
-    let respXML = weatherReq.responseXML;
-    let city = respXML.getElementsByTagName("city")[0].attributes["name"].textContent
+    let respXML = weatherReq.responseXML
+        , city = respXML.getElementsByTagName("city")[0].attributes["name"].textContent
         , country = respXML.getElementsByTagName("country")[0].textContent
         , weatherDesc = respXML.getElementsByTagName("weather")[0].attributes["value"].nodeValue
         , weatherValue = respXML.getElementsByTagName("weather")[0].attributes["number"].nodeValue
@@ -53,7 +53,6 @@ function displayWeatherData(weatherReq) {
         , iconClass
         , bgIndex;
     
-    
 //    var mql = window.matchMedia("screen and (max-width: 410px)");
 //    if (mql.matches) { // if media query matches
 //        $("#theTitle").css({
@@ -77,14 +76,11 @@ function displayWeatherData(weatherReq) {
 //        });
 //    }
     
-    document.getElementById('theTitle').innerHTML = "Free C<i class='wi wi-day-sunny'></i>de Camp";
-    document.getElementById('theSubtitle').innerHTML = "Weather App";
     document.getElementById('city').innerHTML = `${city} - ${country}`;
     document.getElementById('weather').innerHTML = weatherDesc;
     document.getElementById('temp').innerHTML = temperatureContentC;
     backgroundId.push(weatherValue);
     bgIndex = backgroundId.sort().indexOf(weatherValue);
-//    document.body.style.backgroundImage = `url(${backgroundImg[bgIndex]})`;
     document.body.style.backgroundImage = `url(${backgroundImg[bgIndex]})`;
     document.body.style.backgroundRepeat = 'no-repeat';
     document.body.style.backgroundAttachment = 'fixed';
@@ -116,55 +112,66 @@ function displayWeatherData(weatherReq) {
 
 }
     
-function getPosition() {
-
-    return new Promise((resolve, reject) => {
+function getWeather(position) {
+    
+    return new Promise ((resolve, reject) => {
         
-        if (navigator.geolocation) { getGeolocation(); } else { fail('W3C Geolocation API is not available'); }
-        
-        function getGeolocation() {
-
-            let options = {
-            timeout: 60000
-            , enableHighAccuracy: true
-            , maximumAge: 18000
-            };
+        position = new Promise ((resolve, reject) => {
             
-            navigator.geolocation.getCurrentPosition(positionOk, fail, options);
-        }
+            if (navigator.geolocation) { getGeolocation(); } else { alert('W3C Geolocation API is not available'); }
 
-        function fail(error) {
-            reject(error);
-        }
+            function getGeolocation() {
 
-        function positionOk(position) {
+                let options = {
+                timeout: 60000
+                , enableHighAccuracy: true
+                , maximumAge: 18000
+                };
 
-            let crd = position.coords;
-            let lat = crd.latitude;
-            let lon = crd.longitude;
-            let location = `lat=${lat}&lon=${lon}`
-            let appId = "60d2f49e0004ccad2ad538f264be9564"
-            let request = `http://api.openweathermap.org/data/2.5/weather?&mode=xml&units=metric&${location}&APPID=${appId}`;
-            weatherReq = new XMLHttpRequest();
-            weatherReq.open("GET", request, false);
-            console.log(request);
-            weatherReq.send();
-            if (weatherReq.status === 200) {
-                resolve(weatherReq);
-            } else {
-                fail("Some error occurred during the HTTP request");
-
+                navigator.geolocation.getCurrentPosition(positionOk, positionKo, options);
             }
             
-        }
+            function positionOk(position) {
+                resolve(position);
+            }
 
+            function positionKo(error) {
+                reject(error);
+            }
+        });
+        
+        position
+            .then(position => {
+                let crd = position.coords
+                    , lat = crd.latitude
+                    , lon = crd.longitude
+                    , location = `lat=${lat}&lon=${lon}`
+                    , appId = "60d2f49e0004ccad2ad538f264be9564"
+                    , request = `http://api.openweathermap.org/data/2.5/weather?&mode=xml&units=metric&${location}&APPID=${appId}`;
+
+                weatherReq = new XMLHttpRequest();
+                weatherReq.open("GET", request, false);
+                console.log(request);
+                weatherReq.send();
+                if (weatherReq.status === 200) {
+                    resolve(weatherReq);
+                } else {
+                    reject("Some error occurred during the HTTP request");
+                }
+            })
+            .catch(error => {
+                alert(error);
+            })
+        
     });
-
+    
 }
 
 function main() {
 
-    getPosition().then(weatherReq => { displayWeatherData(weatherReq) });
+    getWeather()
+        .then(weatherReq => { displayWeatherData(weatherReq) })
+        .catch(error => { alert(error) });
 
 //    document.body.style.transition = 'background-color 1s ease';
 //    document.body.style.backgroundColor = '#000';
