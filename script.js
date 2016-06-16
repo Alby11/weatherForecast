@@ -60,7 +60,7 @@ function displayWeatherData(weatherReq) {
     bgIndex = backgroundId.sort().indexOf(weatherValue);
     document.body.style.backgroundImage = `url(${backgroundImg[bgIndex]})`;
     document.body.style.backgroundRepeat = 'no-repeat';
-    document.body.style.backgroundAttachment = 'fixed';
+    document.body.style.backgroundAttachment = 'local';
     document.body.style.backgroundPosition = 'center';
     iconClass = backgroundIcon[bgIndex];
     document.getElementById('icon').innerHTML = `<i class="wi wi-${iconClass}"></i><br>`;
