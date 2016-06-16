@@ -130,18 +130,16 @@ function getWeather(position) {
                     , appId = "60d2f49e0004ccad2ad538f264be9564"
                     , request = `http://api.openweathermap.org/data/2.5/weather?&mode=xml&units=metric&${location}&APPID=${appId}`;
 
-                weatherReq = new XMLHttpRequest();
-                weatherReq.open("GET", request, false);
-                console.log(request);
-                weatherReq.send();
-                if (weatherReq.status === 200) {
-                    resolve(weatherReq);
-                } else {
-                    reject("Some error occurred during the HTTP request");
-                }
-            })
-            .catch(error => {
-                alert(error);
+        weatherReq = new XMLHttpRequest();
+        weatherReq.open("GET", request, false);
+        console.log(request);
+        weatherReq.send();
+        
+        if (weatherReq.status === 200) {
+            resolve(weatherReq);
+        } else {
+            reject("Some error occurred during the HTTP request");
+        }
         
     });
     
