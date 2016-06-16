@@ -5,7 +5,7 @@ body * {
 }
 
 .btn {
-    background: linear-gradient(to right, , blue);
+    background: linear-gradient(to right, lightblue, lightskyblue);
     border: 2px solid #333;
     border-radius: 8%;
     box-shadow: 1px 1px 20px 8px #222;
