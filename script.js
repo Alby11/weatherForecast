@@ -128,7 +128,7 @@ function getWeather(position) {
                     , lon = crd.longitude
                     , location = `lat=${lat}&lon=${lon}`
                     , appId = "60d2f49e0004ccad2ad538f264be9564"
-                    , request = `http://api.openweathermap.org/data/2.5/weather?&mode=xml&units=metric&${location}&APPID=${appId}`;
+                    , request = `https://api.openweathermap.org/data/2.5/weather?&mode=xml&units=metric&${location}&APPID=${appId}`;
 
         weatherReq = new XMLHttpRequest();
         weatherReq.open("GET", request, false);
