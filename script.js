@@ -51,7 +51,22 @@ function displayWeatherData(weatherReq) {
             , 'img/cloudy.jpg'
             , ]
         , iconClass
-        , bgIndex;
+        , bgIndex
+        , convertTemp = function(element) {
+            elementId = element.srcElement.id;
+                if (elementId === buttonIdFahrenheit) {
+                    document.getElementById(elementId).removeEventListener('click', convertTemp);
+                    document.getElementById('temp').innerHTML = temperatureContentF;
+                    addClickListener(buttonIdCelsius);
+                } else if (elementId === buttonIdCelsius) {
+                    document.getElementById(elementId).removeEventListener('click', convertTemp);
+                    document.getElementById('temp').innerHTML = temperatureContentC;
+                    addClickListener(buttonIdFahrenheit);
+                }
+            }
+        , addClickListener = function(elementId = buttonIdFahrenheit) {
+            document.getElementById(elementId).addEventListener('click', convertTemp);
+            };
     
     document.getElementById('city').innerHTML = `${city} - ${country}`;
     document.getElementById('weather').innerHTML = weatherDesc;
@@ -68,24 +83,34 @@ function displayWeatherData(weatherReq) {
     document.getElementById('wind').innerHTML = `Wind: ${windValue}  kn - ${windDirection} <i class="wi wi-wind towards-${windDegrees}-deg"></i><br>`;
     document.getElementById('pressure').innerHTML = `Pressure: ${pressureValue} ${pressureUnit}`;
     document.getElementById('temp').innerHTML = temperatureContentC;
-    
-    function addClickListener(elementId = buttonIdFahrenheit) {
-        document.getElementById(elementId).addEventListener('click', convertTemp);
-    };
+
     addClickListener();
+
+}
+
+function getWeather(position) {
     
-    function convertTemp(element) {
-        elementId = element.srcElement.id;
-        if (elementId === buttonIdFahrenheit) {
-            document.getElementById(elementId).removeEventListener('click', convertTemp);
-            document.getElementById('temp').innerHTML = temperatureContentF;
-            addClickListener(buttonIdCelsius);
-        } else if (elementId === buttonIdCelsius) {
-            document.getElementById(elementId).removeEventListener('click', convertTemp);
-            document.getElementById('temp').innerHTML = temperatureContentC;
-            addClickListener(buttonIdFahrenheit);
+    return new Promise ((resolve, reject) => {
+
+        let crd = position.coords
+                    , lat = crd.latitude
+                    , lon = crd.longitude
+                    , location = `lat=${lat}&lon=${lon}`
+                    , appId = "60d2f49e0004ccad2ad538f264be9564"
+                    , request = `http://api.openweathermap.org/data/2.5/weather?&mode=xml&units=metric&${location}&APPID=${appId}`;
+
+        weatherReq = new XMLHttpRequest();
+        weatherReq.open("GET", request, false);
+        console.log(request);
+        weatherReq.send();
+
+        if (weatherReq.status === 200) {
+            resolve(weatherReq);
+        } else {
+            reject("Some error occurred during the HTTP request");
         }
-    }
+
+    });
 
 }
 
@@ -93,7 +118,7 @@ function getPosition() {
     
     return new Promise ((resolve, reject) => {
             
-        if (navigator.geolocation) { getGeolocation(); } else { reject( error => { reject(error); }); }
+        (navigator.geolocation) ? getGeolocation() : (error) => reject(error);
 
         function getGeolocation() {
 
@@ -117,32 +142,6 @@ function getPosition() {
         
     });
         
-}
-
-function getWeather(position) {
-    
-    return new Promise ((resolve, reject) => {
-        
-        let crd = position.coords
-                    , lat = crd.latitude
-                    , lon = crd.longitude
-                    , location = `lat=${lat}&lon=${lon}`
-                    , appId = "60d2f49e0004ccad2ad538f264be9564"
-                    , request = `http://api.openweathermap.org/data/2.5/weather?&mode=xml&units=metric&${location}&APPID=${appId}`;
-
-        weatherReq = new XMLHttpRequest();
-        weatherReq.open("GET", request, false);
-        console.log(request);
-        weatherReq.send();
-        
-        if (weatherReq.status === 200) {
-            resolve(weatherReq);
-        } else {
-            reject("Some error occurred during the HTTP request");
-        }
-        
-    });
-    
 }
 
 function main() {
