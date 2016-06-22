@@ -1,4 +1,4 @@
-var displayWeather = getAll();
+var displayWeather = getAll(); /* declaring the generator */
 
 function displayWeatherData(weatherReq) {
     let respXML = weatherReq.responseXML,
@@ -107,7 +107,6 @@ function getWeather(position) {
                 alert(wetherReq.status);
             }
         }
-        //        throw new Error("Some error occurred during the HTTP request");
     }
     weatherReq.open("GET", request, true);
     console.log(request);
