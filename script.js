@@ -1,4 +1,4 @@
-let displayWeather = getAll();
+var displayWeather = getAll();
 
 function displayWeatherData(weatherReq) {
     let respXML = weatherReq.responseXML
@@ -90,32 +90,6 @@ function displayWeatherData(weatherReq) {
 
 }
 
-//function getWeather(position) {
-//
-//    return new Promise ((resolve, reject) => {
-//
-//        let crd = position.coords
-//                    , lat = crd.latitude
-//                    , lon = crd.longitude
-//                    , location = `lat=${lat}&lon=${lon}`
-//                    , appId = "60d2f49e0004ccad2ad538f264be9564"
-//                    , request = `http://api.openweathermap.org/data/2.5/weather?&mode=xml&units=metric&${location}&APPID=${appId}`;
-//
-//        weatherReq = new XMLHttpRequest();
-//        weatherReq.open("GET", request, false);
-//        console.log(request);
-//        weatherReq.send();
-//
-//        if (weatherReq.status === 200) {
-//            resolve(weatherReq);
-//        } else {
-//            reject("Some error occurred during the HTTP request");
-//        }
-//
-//    });
-//
-//}
-
 function getWeather(position) {
     
     let crd = position.coords
@@ -169,6 +143,7 @@ function getPosition() {
 }
 
 function* getAll() {
+
     let position = yield getPosition().then( (position) => {
         displayWeather.next(position);
     });
@@ -176,37 +151,9 @@ function* getAll() {
     console.log(weather);
     yield displayWeatherData(weather);
 
-//    let weather = yield getWeather(position).then( (weather) => {
-//        displayWeather.next(weather);
-//    });
-//    displayWeatherData(weather);
-
-
-
 }
 
 function main() {
-    
-//    getPosition().then(
-//        position => {
-//            getWeather(position).then(
-//            weatherReq => {
-//                displayWeatherData(weatherReq);
-//            }
-//            ).catch(
-//                error => {
-////                    alert(error);
-//                    throw new Error(error);
-//                }
-//            )
-//        }
-//    ).catch(
-//        error => {
-////            alert(error);
-//            throw new Error(error);
-//        }
-//    );
-
 
     displayWeather.next();
     
