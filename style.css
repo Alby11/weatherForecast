@@ -34,7 +34,7 @@ body * {
     position: absolute;
     color: black;
     opacity: 1;
-    display: table;
+    display: table; /* behaves like <table> */
     width: 100%;
     height: 100%;
     transition: all 1s;
@@ -45,7 +45,7 @@ body * {
     font-size: 3vmax;
     font-family: 'Roboto', serif;
     font-weight: bold;
-    display: table-cell;
+    display: table-cell; /* behaves like <td> */
     vertical-align: middle;
 }
 
