@@ -26,7 +26,6 @@ body * {
     bottom: 0;
     left: 0;
     right: 0;
-    margin: auto;
     transition: all 2s;
     animation: rotateIt 2s linear infinite;
 }
@@ -47,7 +46,6 @@ body * {
     font-family: 'Roboto', serif;
     font-weight: bold;
     display: table-cell;
-    text-align: center;
     vertical-align: middle;
 }
 
