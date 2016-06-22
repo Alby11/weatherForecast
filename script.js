@@ -154,13 +154,15 @@ function main() {
             }
             ).catch(
                 error => {
-                    alert(error);
+//                    alert(error);
+                    throw new Error(error);
                 }
             )
         }
     ).catch(
         error => {
-            alert(error);
+//            alert(error);
+            throw new Error(error);
         }
     );
     
