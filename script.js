@@ -1,4 +1,5 @@
-var displayWeather = getAll(); /* declaring the generator */
+var displayWeather = getAll(), /* declaring the generator */
+    anError;
 
 function displayWeatherData(weatherReq) {
     let respXML = weatherReq.responseXML,
@@ -89,6 +90,27 @@ function displayWeatherData(weatherReq) {
 
 }
 
+function ifError(error) {
+    let errorDiv = document.createElement('DIV'),
+        errorSpan = document.createElement('SPAN'),
+        errorText = document.createTextNode(`Error: ${error}`),
+        styles = {
+            color: 'red',
+            position: 'relative',
+            textAlign: 'center',
+            transition: 'all 1s',
+            animation: 'fadeInOut 1s linear infinite',
+        };
+    errorSpan.id = 'ifError';
+    errorSpan.appendChild(errorText);
+    errorDiv.appendChild(errorSpan);
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('titleField').appendChild(errorDiv);
+    for (i in styles) document.getElementById('ifError').style[i] = styles[i];
+
+
+}
+
 function getWeather(position) {
 
     let crd = position.coords,
@@ -104,7 +126,7 @@ function getWeather(position) {
             if (weatherReq.status == 200) {
                 displayWeather.next(weatherReq);
             } else {
-                alert(wetherReq.status);
+                ifError(weatherReq.error);
             }
         }
     }
@@ -149,13 +171,13 @@ function* getAll() {
     let position = yield getPosition().then((position) => {
         displayWeather.next(position);
     }).catch((error) => {
-        throw new Error(error);
+        ifError(error);
     });
     let weather = yield getWeather(position);
     console.log(weather);
 
     yield (() => {
-        setTimeout(()=> {
+        setTimeout(() => {
             displayWeatherData(weather);
             document.getElementById('loading').style.display = 'none';
             fields = document.getElementsByClassName('textField');
