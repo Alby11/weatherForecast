@@ -11,8 +11,8 @@ body * {
 .loading {
     display: block;
     position: relative;
-    width: 40vw;
-    height: 40vw;
+    width: 35vw;
+    height: 35vw;
     margin: auto;
 }
 
@@ -74,10 +74,10 @@ body * {
         opacity: 1;
     }
     50% {
-        opacity: 1;
+        opacity: 0;
     }
     100% {
-        opacity: 0;
+        opacity: 1;
     }
 }
 
@@ -86,10 +86,10 @@ body * {
         opacity: 1;
     }
     50% {
-        opacity: 1;
+        opacity: 0;
     }
     100% {
-        opacity: 0;
+        opacity: 1;
     }
 }
 
@@ -98,10 +98,10 @@ body * {
         opacity: 1;
     }
     50% {
-        opacity: 1;
+        opacity: 0;
     }
     100% {
-        opacity: 0;
+        opacity: 1;
     }
 }
 
@@ -110,9 +110,9 @@ body * {
         opacity: 1;
     }
     50% {
-        opacity: 1;
+        opacity: 0;
     }
     100% {
-        opacity: 0;
+        opacity: 1;
     }
 }

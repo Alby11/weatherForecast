@@ -1,5 +1,4 @@
-var displayWeather = getAll(), /* declaring the generator */
-    anError;
+var weatherAsyncGenerator = getAll(); /* declaring the generator */
 
 function displayWeatherData(weatherReq) {
     let respXML = weatherReq.responseXML,
@@ -124,7 +123,7 @@ function getWeather(position) {
     weatherReq.onreadystatechange = () => {
         if (weatherReq.readyState == 4) {
             if (weatherReq.status == 200) {
-                displayWeather.next(weatherReq);
+                weatherAsyncGenerator.next(weatherReq);
             } else {
                 ifError(weatherReq.error);
             }
@@ -140,7 +139,7 @@ function getPosition() {
 
     return new Promise((resolve, reject) => {
 
-        (navigator.geolocation) ? getGeolocation(): (error) => reject(error);
+        (navigator.geolocation) ? getGeolocation() : (error) => reject(error);
 
         function getGeolocation() {
 
@@ -169,12 +168,13 @@ function getPosition() {
 function* getAll() {
 
     let position = yield getPosition().then((position) => {
-        displayWeather.next(position);
+        weatherAsyncGenerator.next(position);
     }).catch((error) => {
         ifError(error);
     });
     let weather = yield getWeather(position);
-    console.log(weather);
+
+    console.info(weather);
 
     yield (() => {
         setTimeout(() => {
@@ -191,7 +191,7 @@ function* getAll() {
 
 function main() {
 
-    displayWeather.next();
+    weatherAsyncGenerator.next();
 
 }
 
