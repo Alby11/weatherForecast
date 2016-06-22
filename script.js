@@ -1,31 +1,31 @@
 var displayWeather = getAll();
 
 function displayWeatherData(weatherReq) {
-    let respXML = weatherReq.responseXML
-        , city = respXML.getElementsByTagName("city")[0].attributes["name"].textContent
-        , country = respXML.getElementsByTagName("country")[0].textContent
-        , weatherDesc = respXML.getElementsByTagName("weather")[0].attributes["value"].nodeValue
-        , weatherValue = respXML.getElementsByTagName("weather")[0].attributes["number"].nodeValue
-        , temperatureValue = Math.floor(respXML.getElementsByTagName("temperature")[0].attributes["value"].textContent)
-        , temperatureMin = Math.floor(respXML.getElementsByTagName("temperature")[0].attributes["min"].nodeValue)
-        , temperatureMax = Math.floor(respXML.getElementsByTagName("temperature")[0].attributes["max"].nodeValue)
-        , temperatureUnit = respXML.getElementsByTagName("temperature")[0].attributes["unit"].nodeValue
-        , temperatureValueF = Math.floor(temperatureValue * (9 / 5) + 32)
-        , temperatureMinF = Math.floor(temperatureMin * (9 / 5) + 32)
-        , temperatureMaxF = Math.floor(temperatureMax * (9 / 5) + 32)
-        , buttonIdCelsius = 'toCelsius'
-        , buttonIdFahrenheit = 'toFahrenheit'
-        , temperatureContentC = `Temp: ${temperatureValue} (Min; ${temperatureMin} Max: ${temperatureMax}) °C <button type="button" class="btn btn-success" id="${buttonIdFahrenheit}">To °F</button>`
-        , temperatureContentF = `Temp: ${temperatureValueF} (Min; ${temperatureMinF} Max: ${temperatureMaxF}) °C <button type="button" class="btn btn-success" id="${buttonIdCelsius}">To °C</button>`
-        , humidityValue = respXML.getElementsByTagName("humidity")[0].attributes["value"].nodeValue
-        , humidityUnit = respXML.getElementsByTagName("humidity")[0].attributes["unit"].nodeValue
-        , windValue = respXML.getElementsByTagName("speed")[0].attributes["value"].nodeValue
-        , windDirection = respXML.getElementsByTagName("direction")[0].attributes["code"].nodeValue
-        , windDegrees = respXML.getElementsByTagName("direction")[0].attributes["value"].nodeValue
-        , pressureValue = respXML.getElementsByTagName("pressure")[0].attributes["value"].nodeValue
-        , pressureUnit = respXML.getElementsByTagName("pressure")[0].attributes["unit"].nodeValue
-        , backgroundId = [201, 401, 501, 601, 701, 801]
-        , backgroundIcon = [
+    let respXML = weatherReq.responseXML,
+        city = respXML.getElementsByTagName("city")[0].attributes["name"].textContent,
+        country = respXML.getElementsByTagName("country")[0].textContent,
+        weatherDesc = respXML.getElementsByTagName("weather")[0].attributes["value"].nodeValue,
+        weatherValue = respXML.getElementsByTagName("weather")[0].attributes["number"].nodeValue,
+        temperatureValue = Math.floor(respXML.getElementsByTagName("temperature")[0].attributes["value"].textContent),
+        temperatureMin = Math.floor(respXML.getElementsByTagName("temperature")[0].attributes["min"].nodeValue),
+        temperatureMax = Math.floor(respXML.getElementsByTagName("temperature")[0].attributes["max"].nodeValue),
+        temperatureUnit = respXML.getElementsByTagName("temperature")[0].attributes["unit"].nodeValue,
+        temperatureValueF = Math.floor(temperatureValue * (9 / 5) + 32),
+        temperatureMinF = Math.floor(temperatureMin * (9 / 5) + 32),
+        temperatureMaxF = Math.floor(temperatureMax * (9 / 5) + 32),
+        buttonIdCelsius = 'toCelsius',
+        buttonIdFahrenheit = 'toFahrenheit',
+        temperatureContentC = `Temp: ${temperatureValue} (Min; ${temperatureMin} Max: ${temperatureMax}) °C <button type="button" class="btn btn-success" id="${buttonIdFahrenheit}">To °F</button>`,
+        temperatureContentF = `Temp: ${temperatureValueF} (Min; ${temperatureMinF} Max: ${temperatureMaxF}) °C <button type="button" class="btn btn-success" id="${buttonIdCelsius}">To °C</button>`,
+        humidityValue = respXML.getElementsByTagName("humidity")[0].attributes["value"].nodeValue,
+        humidityUnit = respXML.getElementsByTagName("humidity")[0].attributes["unit"].nodeValue,
+        windValue = respXML.getElementsByTagName("speed")[0].attributes["value"].nodeValue,
+        windDirection = respXML.getElementsByTagName("direction")[0].attributes["code"].nodeValue,
+        windDegrees = respXML.getElementsByTagName("direction")[0].attributes["value"].nodeValue,
+        pressureValue = respXML.getElementsByTagName("pressure")[0].attributes["value"].nodeValue,
+        pressureUnit = respXML.getElementsByTagName("pressure")[0].attributes["unit"].nodeValue,
+        backgroundId = [201, 401, 501, 601, 701, 801],
+        backgroundIcon = [
             'thunderstorm'
             , 'sprinkle'
             , 'rain'
@@ -34,16 +34,17 @@ function displayWeatherData(weatherReq) {
             , 'day-sunny'
             , 'cloudy'
             , ]
-//        , backgroundImg = [
-//            'https://tylermoeller.github.io/local-weather-app/assets/img/thunderstorm.jpg'
-//            , 'https://tylermoeller.github.io/local-weather-app/assets/img/sprinkle.jpg'
-//            , 'https://tylermoeller.github.io/local-weather-app/assets/img/rain.jpg'
-//            , 'https://tylermoeller.github.io/local-weather-app/assets/img/snow.jpg'
-//            , 'https://tylermoeller.github.io/local-weather-app/assets/img/fog.jpg'
-//            , 'https://tylermoeller.github.io/local-weather-app/assets/img/clear.jpg'
-//            , 'https://tylermoeller.github.io/local-weather-app/assets/img/cloudy.jpg'
-//            , ]
-        , backgroundImg = [
+        //        , backgroundImg = [
+        //            'https://tylermoeller.github.io/local-weather-app/assets/img/thunderstorm.jpg'
+        //            , 'https://tylermoeller.github.io/local-weather-app/assets/img/sprinkle.jpg'
+        //            , 'https://tylermoeller.github.io/local-weather-app/assets/img/rain.jpg'
+        //            , 'https://tylermoeller.github.io/local-weather-app/assets/img/snow.jpg'
+        //            , 'https://tylermoeller.github.io/local-weather-app/assets/img/fog.jpg'
+        //            , 'https://tylermoeller.github.io/local-weather-app/assets/img/clear.jpg'
+        //            , 'https://tylermoeller.github.io/local-weather-app/assets/img/cloudy.jpg'
+        //            , ]
+        ,
+        backgroundImg = [
             'img/thunderstorm.jpg'
             , 'img/sprinkle.jpg'
             , 'img/rain.jpg'
@@ -51,25 +52,23 @@ function displayWeatherData(weatherReq) {
             , 'img/fog.jpg'
             , 'img/clear.jpg'
             , 'img/cloudy.jpg'
-            , ]
-        , iconClass
-        , bgIndex
-        , convertTemp = function(element) {
+            , ],
+        iconClass, bgIndex, convertTemp = function (element) {
             elementId = element.srcElement.id;
-                if (elementId === buttonIdFahrenheit) {
-                    document.getElementById(elementId).removeEventListener('click', convertTemp);
-                    document.getElementById('temp').innerHTML = temperatureContentF;
-                    addClickListener(buttonIdCelsius);
-                } else if (elementId === buttonIdCelsius) {
-                    document.getElementById(elementId).removeEventListener('click', convertTemp);
-                    document.getElementById('temp').innerHTML = temperatureContentC;
-                    addClickListener(buttonIdFahrenheit);
-                }
+            if (elementId === buttonIdFahrenheit) {
+                document.getElementById(elementId).removeEventListener('click', convertTemp);
+                document.getElementById('temp').innerHTML = temperatureContentF;
+                addClickListener(buttonIdCelsius);
+            } else if (elementId === buttonIdCelsius) {
+                document.getElementById(elementId).removeEventListener('click', convertTemp);
+                document.getElementById('temp').innerHTML = temperatureContentC;
+                addClickListener(buttonIdFahrenheit);
             }
-        , addClickListener = function(elementId = buttonIdFahrenheit) {
+        },
+        addClickListener = function (elementId = buttonIdFahrenheit) {
             document.getElementById(elementId).addEventListener('click', convertTemp);
-            };
-    
+        };
+
     document.getElementById('city').innerHTML = `${city} - ${country}`;
     document.getElementById('weather').innerHTML = weatherDesc;
     document.getElementById('temp').innerHTML = temperatureContentC;
@@ -91,20 +90,24 @@ function displayWeatherData(weatherReq) {
 }
 
 function getWeather(position) {
-    
-    let crd = position.coords
-                , lat = crd.latitude
-                , lon = crd.longitude
-                , location = `lat=${lat}&lon=${lon}`
-                , appId = "60d2f49e0004ccad2ad538f264be9564"
-                , request = `http://api.openweathermap.org/data/2.5/weather?&mode=xml&units=metric&${location}&APPID=${appId}`;
+
+    let crd = position.coords,
+        lat = crd.latitude,
+        lon = crd.longitude,
+        location = `lat=${lat}&lon=${lon}`,
+        appId = "60d2f49e0004ccad2ad538f264be9564",
+        request = `http://api.openweathermap.org/data/2.5/weather?&mode=xml&units=metric&${location}&APPID=${appId}`;
 
     weatherReq = new XMLHttpRequest();
     weatherReq.onreadystatechange = () => {
-        if (weatherReq.readyState == 4 && weatherReq.status == 200) {
-            displayWeather.next(weatherReq);
+        if (weatherReq.readyState == 4) {
+            if (weatherReq.status == 200) {
+                displayWeather.next(weatherReq);
+            } else {
+                alert(wetherReq.status);
+            }
         }
-        return "Some error occurred during the HTTP request";
+        //        throw new Error("Some error occurred during the HTTP request");
     }
     weatherReq.open("GET", request, true);
     console.log(request);
@@ -113,21 +116,21 @@ function getWeather(position) {
 }
 
 function getPosition() {
-    
-    return new Promise ((resolve, reject) => {
-            
-        (navigator.geolocation) ? getGeolocation() : (error) => reject(error);
+
+    return new Promise((resolve, reject) => {
+
+        (navigator.geolocation) ? getGeolocation(): (error) => reject(error);
 
         function getGeolocation() {
 
             let options = {
-            timeout: 60000
-            , enableHighAccuracy: true
-            , maximumAge: 18000
+                timeout: 60000,
+                enableHighAccuracy: true,
+                maximumAge: 18000
             };
 
             navigator.geolocation.getCurrentPosition(positionOk, positionKo, options);
-            
+
         }
 
         function positionOk(position) {
@@ -137,26 +140,38 @@ function getPosition() {
         function positionKo(error) {
             reject(error);
         }
-        
+
     });
-        
+
 }
 
 function* getAll() {
 
-    let position = yield getPosition().then( (position) => {
+    let position = yield getPosition().then((position) => {
         displayWeather.next(position);
+    }).catch((error) => {
+        throw new Error(error);
     });
     let weather = yield getWeather(position);
     console.log(weather);
-    yield displayWeatherData(weather);
+
+    yield (() => {
+        setTimeout(()=> {
+            displayWeatherData(weather);
+            document.getElementById('loading').style.display = 'none';
+            fields = document.getElementsByClassName('textField');
+            for (let i in fields) {
+                fields[i].style.display = 'block';
+            }
+        }, 3000);
+    })();
 
 }
 
 function main() {
 
     displayWeather.next();
-    
+
 }
 
 document.addEventListener("DOMContentLoaded", main(), false);
