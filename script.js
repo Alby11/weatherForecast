@@ -1,5 +1,4 @@
-var displayWeather = getAll(), /* declaring the generator */
-    anError;
+var weatherGenerator = getAllGenerator();
 
 function displayWeatherData(weatherReq) {
     let respXML = weatherReq.responseXML,
@@ -101,12 +100,14 @@ function ifError(error) {
             transition: 'all 1s',
             animation: 'fadeInOut 1s linear infinite',
         };
+    errorDiv.id = 'ifErrorDiv'
     errorSpan.id = 'ifError';
     errorSpan.appendChild(errorText);
     errorDiv.appendChild(errorSpan);
     document.getElementById('loading').style.display = 'none';
     document.getElementById('titleField').appendChild(errorDiv);
     for (i in styles) document.getElementById('ifError').style[i] = styles[i];
+    document.getElementById('ifErrorDiv').style.marginTop = '10%';
 
 
 }
@@ -124,7 +125,7 @@ function getWeather(position) {
     weatherReq.onreadystatechange = () => {
         if (weatherReq.readyState == 4) {
             if (weatherReq.status == 200) {
-                displayWeather.next(weatherReq);
+                weatherGenerator.next(weatherReq);
             } else {
                 ifError(weatherReq.error);
             }
@@ -166,17 +167,17 @@ function getPosition() {
 
 }
 
-function* getAll() {
+function* getAllGenerator() {
 
     let position = yield getPosition().then((position) => {
-        displayWeather.next(position);
+        weatherGenerator.next(position);
     }).catch((error) => {
         ifError(error);
     });
     let weather = yield getWeather(position);
     console.log(weather);
 
-    yield (() => {
+    yield(() => {
         setTimeout(() => {
             displayWeatherData(weather);
             document.getElementById('loading').style.display = 'none';
@@ -191,7 +192,7 @@ function* getAll() {
 
 function main() {
 
-    displayWeather.next();
+    weatherGenerator.next();
 
 }
 
