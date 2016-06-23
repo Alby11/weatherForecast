@@ -90,6 +90,7 @@ function displayWeatherData(weatherReq) {
 }
 
 function ifError(error) {
+
     let errorDiv = document.createElement('DIV'),
         errorSpan = document.createElement('SPAN'),
         errorText = document.createTextNode(`Error: ${error}`),
@@ -100,15 +101,17 @@ function ifError(error) {
             transition: 'all 1s',
             animation: 'fadeInOut 1s linear infinite',
         };
-    errorDiv.id = 'ifErrorDiv'
+
+    errorDiv.id = 'ifErrorDiv';
     errorSpan.id = 'ifError';
+
     errorSpan.appendChild(errorText);
     errorDiv.appendChild(errorSpan);
     document.getElementById('loading').style.display = 'none';
     document.getElementById('titleField').appendChild(errorDiv);
     for (i in styles) document.getElementById('ifError').style[i] = styles[i];
     document.getElementById('ifErrorDiv').style.marginTop = '10%';
-
+    throw new Error(error);
 
 }
 
